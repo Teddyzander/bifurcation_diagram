@@ -67,11 +67,11 @@ plt.show()
 # Now we can plot the bifurcation diagram
 
 # number of r values we will simulate
-n = 10000
+n = 10000000
 # values for r
-r = np.linspace(0, 4, n)
+r = np.linspace(2.9, 4, n)
 # number of iterations (we will plot the last 100 iterations, assuming we have reached a convergence/oscillation
-iterations = 1000
+iterations = 1000000
 last = 100
 # initial condition for population of 0.00001
 x = 1e-5 * np.ones(n)
@@ -80,6 +80,8 @@ lyapunov = np.zeros(n)
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 9), sharex=True)
 for i in range(iterations):
+    if i % 100 == 0:
+        print(i)
 
     x = logistic_map(r, x)
 
@@ -90,7 +92,6 @@ for i in range(iterations):
     if i >= (iterations - last):
         ax1.plot(r, x, ",k", alpha=0.25)
 
-ax1.set_xlim(0, 4)
 ax1.set_title("Bifurcation diagram")
 
 # We display the Lyapunov exponent.
@@ -104,7 +105,7 @@ ax2.plot(r[lyapunov < 0],
 ax2.plot(r[lyapunov >= 0],
          lyapunov[lyapunov >= 0] / iterations,
          '.r', alpha=.5, ms=.5)
-ax2.set_xlim(0, 4)
+ax2.set_xlim(2.9, 4)
 ax2.set_ylim(-2, 1)
 ax2.set_title("Lyapunov exponent")
 plt.tight_layout()
