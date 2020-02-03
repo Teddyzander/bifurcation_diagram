@@ -58,7 +58,55 @@ def plot_system(r, x0, n, ax=None):
     ax.set_ylim(0, 1)
 
 
+"""
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), sharey=True)
-plot_system(2.5, 0.1, 1000, ax=ax1)
-plot_system(3.5, .1, 1000, ax=ax2)
+plot_system(3.56994, .1, 1000, ax=ax2)
+plt.show()
+"""
+
+# Now we can plot the bifurcation diagram
+
+# number of r values we will simulate
+n = 10000
+# values for r
+r = np.linspace(0, 4, n)
+# number of iterations (we will plot the last 100 iterations, assuming we have reached a convergence/oscillation
+iterations = 1000
+last = 100
+# initial condition for population of 0.00001
+x = 1e-5 * np.ones(n)
+# approximate lyapunov exponent for r (can be seen as the rate of seperation)
+lyapunov = np.zeros(n)
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 9), sharex=True)
+for i in range(iterations):
+
+    x = logistic_map(r, x)
+
+    # calculate the partial sum of the lyapunoc exponent
+    lyapunov += np.log(abs(r - 2 * r * x))
+
+    # display the bifurcation diagram
+    if i >= (iterations - last):
+        ax1.plot(r, x, ",k", alpha=0.25)
+
+ax1.set_xlim(0, 4)
+ax1.set_title("Bifurcation diagram")
+
+# We display the Lyapunov exponent.
+# Horizontal line.
+ax2.axhline(0, color='k', lw=.5, alpha=.5)
+# Negative Lyapunov exponent in black
+ax2.plot(r[lyapunov < 0],
+         lyapunov[lyapunov < 0] / iterations,
+         '.k', alpha=.5, ms=.5)
+# Positive Lyapunov exponentin red
+ax2.plot(r[lyapunov >= 0],
+         lyapunov[lyapunov >= 0] / iterations,
+         '.r', alpha=.5, ms=.5)
+ax2.set_xlim(0, 4)
+ax2.set_ylim(-2, 1)
+ax2.set_title("Lyapunov exponent")
+plt.tight_layout()
+
 plt.show()
