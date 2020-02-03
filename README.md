@@ -34,3 +34,9 @@ between 4 values. Then 8, then 16, etc. This behaviour is known as period-doubli
 4.  Beyond 3.56995, chaos begins and the oscillations end (mostly, though there are occasionally "islands of stability")
 5.  Beyond 4, almost every initial population will eventually leave the [0,1] interval, and diverge.
 
+### Link to fractal geometry
+
+The bifurcation diagram is self similar, hence it's connection the fractals. In fact, if you plot the mandlebrot set
+in such a way that the z axis is the value that the iteration stabilises on, it will plot a bifurcation diagram.
+
+Interesting!
